@@ -1,3 +1,20 @@
-h1 {
-  color: pink;
+
+
+
+
+body {
+  background-color: blue;
+  display: block;
+  max-width: 90%;
+  margin: auto;
+  padding: 50px;
 }
+
+#canvas {
+  max-width: 90%;
+  background-color: white;
+  border: 1px solid black;
+  display: block;
+  margin: auto;
+}
+
