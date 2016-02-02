@@ -9,7 +9,7 @@ var y = canvas.height;
 var dx = 2;
 var dy = -2;
 var paddleHeight = 30;
-var paddleWidth = 150;
+var paddleWidth = canvas.width;
 var paddleMove = (canvas.width - paddleWidth)/2;
 var brickRowCount = 5;
 var brickColumnCount = 11;
@@ -44,7 +44,7 @@ function move(e) {
   if (e.keyCode === 37) {
     paddleMove -= 20;
   }
-//sets boundaries for paddles
+  //sets boundaries for paddles
   if (paddleMove > canvas.width) {
     paddleMove = 0;
   }
@@ -57,12 +57,15 @@ document.onkeydown = move;
 
 //function to create bricks in an array
 function createBrick() {
-  for(c=0; c<brickColumnCount; c++) {
+  for (c = 0; c < brickColumnCount; c++) {
     bricks[c] = [];
-      for(r=0; r<brickRowCount; r++) {
+      for (r = 0; r < brickRowCount; r++) {
         bricks[c][r] = { x: 0,
                          y: 0,
-                         status: 1};
+                         status: 1,
+                         brickWidth: 105,
+                         brickHeight: 40
+                         };
       }
   }
 }
@@ -70,62 +73,58 @@ createBrick();
 
 //function to draw bricks on canvas
 function drawBricks() {
-  //if(bricks[c][r].status=== 1) {
-  for(c = 0; c < brickColumnCount; c++) {
-    for(r = 0; r < brickRowCount; r++) {
-      var brickX = (c * (brickWidth + brickPadding));
-        var brickY = (r * (brickHeight + brickPadding));
-          bricks[c][r].x = brickX;
-          bricks[c][r].y = brickY;
-          ctx.beginPath()
-          ctx.rect(brickX, brickY, brickWidth, brickHeight)
-          ctx.fillStyle = "magenta"
-          ctx.fill()
+
+  for (var c = 0; c < brickColumnCount; c++) {
+    for (var r = 0; r < brickRowCount; r++) {
+      if (bricks[c][r].status === 1) {
+        bricks[c][r].x = (c * (brickWidth + brickPadding));
+        bricks[c][r].y = (r * (brickHeight + brickPadding));
+          ctx.beginPath();
+          ctx.fillStyle = "magenta";
+          ctx.rect(bricks[c][r].x, bricks[c][r].y, brickWidth, brickHeight);
+          ctx.fill();
           ctx.closePath();
-//}
+      }
     }
   }
 }
 
 //function to detect if ball hits a brick
 function collisionDetection() {
-  for(c=0; c<brickColumnCount; c++) {
-    for(r=0; r<brickRowCount; r++) {
-      ctx.fillStyle = "magenta";
-      var brickX = bricks[c][r].x;
-      var brickY = bricks[c][r].y;
-        if (ctx.fillStyle = "magenta" && x > brickX && x < (brickX + brickWidth) && y > brickY && y < (brickY + brickHeight)) {
-        dy = -dy;
-        ctx.fillStyle = 'white';
+  for (var c = 0; c < brickColumnCount; c++) {
+    for (var r = 0; r < brickRowCount; r++) {
+        if (bricks[c][r].status === 1 && x > bricks[c][r].x && x < (bricks[c][r].x + brickWidth) && y > bricks[c][r].y && y < (bricks[c][r].y + brickHeight)) {
+          dy = -dy;
+          bricks[c][r].status = 0;
         }
     }
   }
 }
 
-//function that draws entire canvas. all other canvas elements drawn here
+  //function that draws entire canvas. all other canvas elements drawn here
   function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawBall();
     drawPaddle();
     drawBricks();
     collisionDetection();
-//conditional to check if ball is going beyond the boundaries of the canvas
+    //conditional to check if ball is going beyond the boundaries of the canvas
     if (x > canvas.width + ballRadius || x < 0) {
       dx = -dx;
     } else if (y > canvas.length + ballRadius || y < 0) {
       dy = -dy;
     }
-//if ball goes below x-axis, stop
+    //if ball goes below x-axis, stop
     if (y > canvas.height + 30) {
       dx = 0;
       dy = 0;
-//alert("you lose");
+    //alert("you lose");
     }
-//deflects ball off paddle
+    //deflects ball off paddle
     if (y < ballRadius) {
       dy = -dy;
     } else if (y > canvas.height - ballRadius) {
-      if(x > paddleMove && x < paddleMove + paddleWidth) {
+      if (x > paddleMove && x < paddleMove + paddleWidth) {
         dy = -dy;
       }
     }
@@ -133,7 +132,7 @@ function collisionDetection() {
     y += dy;
   }
 
-setInterval(draw, 10);
+setInterval(draw, 2);
 
 
 
