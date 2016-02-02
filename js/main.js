@@ -1,57 +1,18 @@
 console.log("main.js loaded");
+(function(){
 
-/*function draw() {
-  var canvas = document.getElementById('canvas');
-  var ctx = canvas.getContext('2d');
-  var raf;
-
-    var x = canvas.width;
-    var y = canvas.height;
-    ctx.fillStyle = "#0095DD";
-    var height = 40;
-    var width = 100;
-
-    for (var i = 0; i < 6; i++) {
-      var yPos = width * i;
-        for (var j = 0; j < 11; j++) {
-          ctx.fillRect((width + 10 ) * j, yPos / 2, width, height);
-        }
-    }
-  var ball = {
-    x: canvas.width,
-    y: canvas.height,
-    dx: 2,
-    dy: -2,
-    radius: 50,
-    color: 'purple',
-    ballDraw: function() {
-      ctx.beginPath();
-      ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
-      ctx.fillStyle = this.color;
-      ctx.fill();
-      ctx.closePath();
-      x += dx;
-      y += dy;
-    }
-  }
-}
-*/
-
-window.onload = function() {
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
 
 var ballRadius = 10;
 var x = canvas.width;
 var y = canvas.height;
-var dx = 4;
+var dx = 2;
 var dy = -2;
-var myBall = ctx.arc(x, y, ballRadius, 0, Math.PI*2);
-var paddleHeight = 20;
-var paddleWidth = 90;
+var paddleHeight = 30;
+var paddleWidth = 150;
 var paddleMove = (canvas.width - paddleWidth)/2;
-//var rightPressed = false;
-//var leftPressed = false;
+
 
   function drawBall() {
       ctx.beginPath();
@@ -70,14 +31,6 @@ var paddleMove = (canvas.width - paddleWidth)/2;
   }
 
   function move(e) {
-    /*if (e.keyCode == 37) {
-      rightPressed = true;
-      alert("right pressed!");
-    } else if (e.keyCode == 39) {
-      leftPressed = true;
-      alert("left pressed!")
-    }*/
-    //alert(e.keyCode);
     if (e.keyCode === 39) {
       paddleMove += 20;
     }
@@ -95,57 +48,91 @@ var paddleMove = (canvas.width - paddleWidth)/2;
 }
   document.onkeydown = move;
 
-function bricks() {
-    ctx.beginPath();
-    ctx.rect(0, 0, height, width);
-    ctx.fillStyle = 'pink';
-    ctx.fill();
-    ctx.closePath();
-    var height = 40;
-    var width = 100;
 
-    for (var i = 0; i < 6; i++) {
-      var yPos = width * i;
-        for (var j = 0; j < 11; j++) {
-          ctx.fillRect((width + 10 ) * j, yPos / 2, width, height);
+    var brickRowCount = 5;
+    var brickColumnCount = 11;
+    var brickWidth = 105;
+    var brickHeight = 40;
+    var brickPadding = 5;
+    var bricks = [];
+      for(c=0; c<brickColumnCount; c++) {
+        bricks[c] = [];
+        for(r=0; r<brickRowCount; r++) {
+            bricks[c][r] = { x: 0,
+                             y: 0,
+                             status: 1};
         }
     }
+
+
+function drawBricks() {
+createBricks();
+    for(c=0; c<brickColumnCount; c++) {
+        for(r=0; r<brickRowCount; r++) {
+            var brickX = (c*(brickWidth+brickPadding));
+            var brickY = (r*(brickHeight+brickPadding));
+            bricks[c][r].x = brickX;
+            bricks[c][r].y = brickY;
+
+
+            ctx.beginPath();
+            ctx.rect(brickX, brickY, brickWidth, brickHeight);
+            ctx.fillStyle = "magenta";
+            ctx.fill();
+            ctx.closePath();
+        }
+    }
+}
+
+function collisionDetection() {
+  for(c=0; c<brickColumnCount; c++) {
+      for(r=0; r<brickRowCount; r++) {
+        ctx.fillStyle = "magenta";
+        var brickX = bricks[c][r].x;
+        var brickY = bricks[c][r].y;
+        console.log(brickY);
+          if (ctx.fillStyle = "magenta" && x > brickX && x < (brickX + brickWidth) && y > brickY && y < (brickY + brickHeight)) {
+            dy = -dy;
+            ctx.fillStyle = 'white';
+          }
+      }
+  }
 }
 
   function draw() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       drawBall();
       drawPaddle();
-      bricks();
+      createBricks();
+      drawBricks();
+      collisionDetection();
       if (x > canvas.width + ballRadius || x < 0) {
         dx = -dx;
       } else if (y > canvas.length + ballRadius || y < 0) {
-        dy = -dy; //change to width to prevent it from disappearing on bottom
+        dy = -dy;
       }
-      //if ball goes below x-axis, stop
-      if (y > canvas.height+ 30) {
+      //stops ball if it goes below x-axis
+      if (y > canvas.height + 30) {
         dx = 0;
         dy = 0;
       }
       //deflects ball off paddle
-      //logic?
      if (y < ballRadius) {
       dy = -dy;
      } else if (y > canvas.height - ballRadius) {
         if(x > paddleMove && x < paddleMove + paddleWidth) {
           dy = -dy;
         }}
-      //if (x > (canvas.width + ballRadius + paddleHeight)) {
-      //  dx = -dx;
-      //}
+
       x += dx;
       y += dy;
-  }
 
-  setInterval(draw, 8);
+    }
 
-}
+  setInterval(draw, 10);
 
+// }
+})();
 
 
 
