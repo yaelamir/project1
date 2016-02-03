@@ -14,24 +14,21 @@ body {
 
 }
 
-#canvas {
+#toggle {
+  font-size: 30px;
+  margin: 30px;
+  background-color: #C6E2FF;
+}
 
+#canvas {
+  background: rgba(255,255,255,0.2);
   max-width: 90%;
-  background-color: black;
-  background-image: url(https://premiumcoding.com/wp-content/uploads/2014/02/space-background1.png);
+
   display: block;
   margin: auto;
 }
 
-#toggle {
-  margin-top: 40px;
-  margin-right: 40px;
 
-}
-
-input[type="button"] {
-
-}
 
 #panel-game {
   font-size: 40px;

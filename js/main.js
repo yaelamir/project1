@@ -2,7 +2,6 @@ console.log("main.js loaded");
 
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
-//var refreshIntervalId = setInterval(draw, 2);
 var ballRadius = 13;
 var x = canvas.width;
 var y = canvas.height;
@@ -13,21 +12,17 @@ var paddleWidth = 150;
 var paddleMove = (canvas.width - paddleWidth)/2;
 var brickRowCount = 5;
 var brickColumnCount = 11;
-//var brickWidth = 105;
-//var brickHeight = 40;
 var brickPadding = 5;
 var bricks = [];
-//var wonGame = false;
-//var stop = setInterval(draw, 2);
 var intervalID;
 var toggle = "play";
+var score = 0;
+
 //function to draw ball
 function drawBall() {
   ctx.beginPath();
-
   ctx.arc(x, y, ballRadius, 0, Math.PI*2);
-  ctx.fillStyle = '#9FB6CD';
-
+  ctx.fillStyle = '#CB99C9';//'#9FB6CD';
   ctx.closePath();
   ctx.fill();
 }
@@ -36,14 +31,10 @@ function drawBall() {
 function drawPaddle() {
   ctx.beginPath();
   ctx.rect(paddleMove, (canvas.height - paddleHeight), paddleWidth, paddleHeight);
-  ctx.fillStyle = "#8B8989";
+  ctx.fillStyle = "#00FA9A";
   ctx.fill();
   ctx.closePath();
-
-
-
 }
-
 
 //function to control arrow keys
 function move(e) {
@@ -60,7 +51,6 @@ function move(e) {
   if (paddleMove < 0) {
     paddleMove = canvas.width;
   }
-  // canvas.width = canvas.width;
 }
 document.onkeydown = move;
 
@@ -88,9 +78,7 @@ function drawBricks() {
         bricks[c][r].x = (c * (bricks[c][r].brickWidth + brickPadding));
         bricks[c][r].y = (r * (bricks[c][r].brickHeight + brickPadding));
           ctx.beginPath();
-          //ctx.fillStyle = "magenta";
-          ctx.fillStyle = 'rgb(0,' + Math.floor(255-42.5*r) + ',' +
-                         Math.floor(255-15*c) + ')';
+          ctx.fillStyle = 'rgb(0,' + Math.floor(255-42.5*r) + ',' + Math.floor(255-15*c) + ')';
           ctx.rect(bricks[c][r].x, bricks[c][r].y, bricks[c][r].brickWidth, bricks[c][r].brickHeight);
           ctx.fill();
           ctx.closePath();
@@ -110,6 +98,7 @@ function collisionDetection() {
           && y < (bricks[c][r].y + bricks[c][r].brickHeight)) {
             dy = -dy;
             bricks[c][r].status = 0;
+
       }
     }
   }
@@ -125,17 +114,14 @@ var winningConditions = function() {
   }
   console.log("total bricks left:", total);
   if (total === 0) {
-
-    //alert("you win");
     clearInterval(intervalID);
-ctx.font = "200px Impact, Charcoal, sans-serif";
+    ctx.font = "200px Impact, Charcoal, sans-serif";
     ctx.shadowOffsetX = 10;
     ctx.shadowOffsetY = 10;
     ctx.shadowColor = "#C6E2FF";
     ctx.fillStyle = 'white';
     ctx.fillText("YOU WIN!", 218, 400);
   }
-  //wonGame = true;
 }
 
 function loseTheGame () {
@@ -151,20 +137,13 @@ function loseTheGame () {
     ctx.shadowColor = "#C6E2FF";
     ctx.fillStyle = 'black';
     ctx.fillText("YOU LOSE!", 218, 400);
-
-
-    /*var h2 = document.createElement("h1")
-    h2.textContent = "You Lose!";
-    h2.style.cssText = "color: blue; font-size: 100px; bottom: 20px; margin-bottom: 100px; font: arial;";
-    document.body.appendChild(h2);*/
   }
-
-  //function that draws entire canvas. all other canvas elements drawn here
 }
-//if (wonGame === false) {
+//function that draws entire canvas
+//all other canvas elements drawn here
 function draw() {
-  ctx.fillStyle = 'rgba(255,255,255,0.2)';
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = 'rgba(255,255,255,0.5)';
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
   drawBall();
   drawPaddle();
   drawBricks();
@@ -172,19 +151,20 @@ function draw() {
   winningConditions();
   loseTheGame();
   pauseResume();
-
   //conditionals to check if ball is going beyond the boundaries of the canvas
-  if (x > canvas.width + ballRadius || x < 0) {
+  if (x + dx > canvas.width + ballRadius || x + dx < ballRadius) {
     dx = -dx;
+    //playBallHitSound();
   }
-  if (y < canvas.length - ballRadius || y < 0) {
+  if (y + dy < canvas.length - ballRadius || y + dy < ballRadius) {
     dy = -dy;
+    playBallHitSound();
   }
   //causes ball to change direction if it hits paddle
   if (y < ballRadius) {
     dy = -dy;
   }
-  if (y > canvas.height - paddleHeight - ballRadius) {
+  if (y + dy > canvas.height - paddleHeight - ballRadius) {
     if (x > paddleMove && x < paddleMove + paddleWidth) {
       dy = -dy;
     }
@@ -192,36 +172,42 @@ function draw() {
   x += dx;
   y += dy;
   //pause and resume
-
-
 }
 
-intervalID = setInterval(draw, 5);
+intervalID = setInterval(draw, 8);
 
 function pauseResume() {
-document.getElementById("toggle").addEventListener('click', function(event) {
+  document.getElementById("toggle").addEventListener('click', function(event) {
   if (toggle === "play") {
     document.getElementById("toggle").innerHTML = 'Resume';
-  intervalID;
-  toggle = "pause";
+    intervalID;
+    toggle = "pause";
   } else if (toggle === "pause") {
     dx = 0;
     dy = 0;
     //clearInterval(intervalID);
-  document.getElementById("toggle").innerHTML = 'Pause';
-  toggle = "play";
-}
+    document.getElementById("toggle").innerHTML = 'Pause';
+    toggle = "play";
+    }
 })
 
 function winTheGame() {
   for (var i = 0; i < bricks.length; i++) {
     for (var j = 0; j < bricks[i].length; j++) {
       console.log("breaking brick:", i, j);
+      ctx.font = "20px Arial";
+      ctx.fillStyle = "#0095DD";
+      ctx.fillText("Bricks Remaining: " + total, 8, 585);
       bricks[i][j].status = 0;
     }
   }
 }
 }
+/*function drawScore() {
+    ctx.font = "20px Arial";
+    ctx.fillStyle = "#0095DD";
+    ctx.fillText("Bricks Remaining: "+total, 8, 585);
+}*/
 
 //text for second canvas
 function drawText() {
@@ -230,13 +216,21 @@ function drawText() {
   ctx.shadowOffsetY = 4;
   //ctx.shadowBlur = 2;
   ctx.shadowColor = "#B9D3EE";
-
   ctx.font = "70px Impact, Charcoal, sans-serif";
   ctx.fillStyle = "white";
   ctx.fillText("BRICK BREAKER", 10, 60);
 }
 drawText();
 
+
+//audio manipulation
+//////////////////
+
+/*var ballHitWall = $("#sounds")[0];
+
+var playBallHitSound = function () {
+  ballHitWall.play();
+}*/
 
 
 
