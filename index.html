@@ -5,15 +5,27 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Brick Breaker</title>
   <link rel="stylesheet" href="css/style.css">
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
 </head>
+
 <body>
 
 <script></script>
-  <canvas id="canvas" width="1200" height="650">
+  <canvas id="textCanvas" width="400" height="80">
+  Your browser doesn't support canvas!
+  </canvas>
+  <canvas id="canvas" width="1200" height="600">
     Your browser doesn't support canvas!
   </canvas>
+
   <script src="js/main.js"></script>
+
+  <div>
+      <button id="toggle">Pause</button>
+      <input type="button" onClick="history.go(0)" value="Restart">
+  </div>
+
+
 
 </body>
 </html>

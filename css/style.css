@@ -1,20 +1,38 @@
 
 
-
+#textCanvas {
+text-align: center;
+}
 
 body {
-  background-color: blue;
   display: block;
   max-width: 90%;
   margin: auto;
-  padding: 50px;
+  padding: 20px;
+  text-align: center;
+  background-color: black;
+
 }
 
 #canvas {
+
   max-width: 90%;
-  background-color: white;
-  border: 1px solid black;
+  background-color: transparent;
+  background-image: url(https://premiumcoding.com/wp-content/uploads/2014/02/space-background1.png);
   display: block;
   margin: auto;
 }
 
+#toggle {
+  margin-top: 40px;
+  margin-right: 40px;
+
+}
+
+input[type="button"] {
+
+}
+
+#panel-game {
+  font-size: 40px;
+}
