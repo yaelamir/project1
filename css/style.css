@@ -10,14 +10,14 @@ body {
   margin: auto;
   padding: 20px;
   text-align: center;
-  background-color: black;
+  background-image: url(http://wallpapercave.com/wp/saiUfL2.png);
 
 }
 
 #canvas {
 
   max-width: 90%;
-  background-color: transparent;
+  background-color: black;
   background-image: url(https://premiumcoding.com/wp-content/uploads/2014/02/space-background1.png);
   display: block;
   margin: auto;
@@ -36,3 +36,10 @@ input[type="button"] {
 #panel-game {
   font-size: 40px;
 }
+
+
+
+
+
+
+
