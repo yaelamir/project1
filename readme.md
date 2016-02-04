@@ -1,47 +1,12 @@
-Name:
-Brick Breaker
 
+#Brick Breaker
+**Developer:**  
+Yael Amir  
+![altimg](gamescreenshot.png)
 **Description:**  
-The goal is to catch the ball in order to break all the bricks. If the ball isn't caught - GAME OVER. You win when you break all the bricks.
+The goal is to catch the ball with the paddle in order to break all the bricks. If the ball isn't caught - GAME OVER. 
 
-**Code Snippet:**
-
-**Instructions:**
-
-**Development & Tools:**
-
-**Authors:**
-
-**Contact Info:**
-
-**Brief History:**
-
-
-var ball = {
-    x: canvas.width/2,
-    y: canvas.height - 30,
-    dx: 2,
-    dy: -2,
-    radius: 20,
-    color: 'purple',
-    draw: function() {
-      ctx.beginPath();
-      ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
-      ctx.fillStyle = "#0095DD";
-      ctx.fill();
-      ctx.closePath();
-      x += dx;
-      y += dy;
-
-    }
-  }
-
-ball.draw();
-
-}
-setInterval(draw, 10);
-
-
+The player must smash the wall of bricks by deflecting a bouncing ball with a paddle. The paddle moves horizontally and is controlled with left and right arrow keys. The player wins when all the bricks have been smashes.
 
 
 

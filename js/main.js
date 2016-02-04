@@ -97,6 +97,7 @@ function collisionDetection() {
           && y > bricks[c][r].y
           && y < (bricks[c][r].y + bricks[c][r].brickHeight)) {
             dy = -dy;
+            ballHitBrick.play();
             bricks[c][r].status = 0;
 
       }
@@ -114,13 +115,14 @@ var winningConditions = function() {
   }
   console.log("total bricks left:", total);
   if (total === 0) {
+    winner.play();
     clearInterval(intervalID);
     ctx.font = "200px Impact, Charcoal, sans-serif";
     ctx.shadowOffsetX = 10;
     ctx.shadowOffsetY = 10;
     ctx.shadowColor = "#C6E2FF";
     ctx.fillStyle = 'white';
-    ctx.fillText("YOU WIN!", 218, 400);
+    ctx.fillText("WINNER", 218, 400);
   }
 }
 
@@ -128,6 +130,7 @@ function loseTheGame () {
   if (y > canvas.height + 30) {
     dx = 0;
     dy = 0;
+    loser.play();
     clearInterval(intervalID);
     ctx.font = "200px Impact, Charcoal, sans-serif";
     ctx.shadowOffsetX = 10;
@@ -136,7 +139,7 @@ function loseTheGame () {
     //ctx.textBlur = 10;
     ctx.shadowColor = "#C6E2FF";
     ctx.fillStyle = 'black';
-    ctx.fillText("YOU LOSE!", 218, 400);
+    ctx.fillText("LOSER", 360, 400);
   }
 }
 //function that draws entire canvas
@@ -152,21 +155,23 @@ function draw() {
   loseTheGame();
   pauseResume();
   //conditionals to check if ball is going beyond the boundaries of the canvas
-  if (x + dx > canvas.width + ballRadius || x + dx < ballRadius) {
+  if (x + dx > canvas.width || x + dx < 0) {
     dx = -dx;
-    //playBallHitSound();
+    playBallHitSound();
   }
-  if (y + dy < canvas.length - ballRadius || y + dy < ballRadius) {
+  if (y + dy < canvas.length || y + dy < 0) {
     dy = -dy;
     playBallHitSound();
   }
   //causes ball to change direction if it hits paddle
   if (y < ballRadius) {
     dy = -dy;
+    ballHitPaddle.play();
   }
-  if (y + dy > canvas.height - paddleHeight - ballRadius) {
+  if (y + dy > canvas.height - paddleHeight) {
     if (x > paddleMove && x < paddleMove + paddleWidth) {
       dy = -dy;
+      ballHitPaddle.play();
     }
   }
   x += dx;
@@ -181,6 +186,8 @@ function pauseResume() {
   if (toggle === "play") {
     document.getElementById("toggle").innerHTML = 'Resume';
     intervalID;
+    /*dx = 2;
+    dy = -2;*/
     toggle = "pause";
   } else if (toggle === "pause") {
     dx = 0;
@@ -226,12 +233,27 @@ drawText();
 //audio manipulation
 //////////////////
 
-/*var ballHitWall = $("#sounds")[0];
+// var ballHitWall = $("#sounds")[0];
 
+var ballHitWall = new Audio("sounds/wall.wav")
 var playBallHitSound = function () {
   ballHitWall.play();
-}*/
-
-
+}
+var ballHitPaddle = new Audio("sounds/paddle.wav")
+var playBallHitPaddleSound = function () {
+  ballHitPaddle.play();
+}
+var ballHitBrick = new Audio("sounds/newbrick.wav")
+var playBallHitBrickSound = function () {
+  ballHitBrick.play();
+}
+var loser = new Audio("sounds/loser.wav")
+var playLoserSound = function () {
+  loser.play();
+}
+var winner = new Audio("sounds/winner.wav")
+var playWinnerSound = function () {
+  winner.play();
+}
 
 
