@@ -2,34 +2,62 @@ console.log("main.js loaded");
 //global pollution
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
+//ball variables
 var ballRadius = 15;
-var x = canvas.width;
-var y = canvas.height;
+//ball starting positions on x & y axis
+var x = canvas.width/2;
+var y = canvas.height - 40;
+//ball starting trajectory
 var dx = 2;
 var dy = -2;
+//paddle variables
 var paddleHeight = 30;
 var paddleWidth = 150;
+//paddle starting position
 var paddleMove = (canvas.width - paddleWidth)/2;
+//brick variables
 var brickRowCount = 5;
 var brickColumnCount = 11;
 var brickPadding = 5;
 var bricks = [];
+//interval variable
 var intervalID;
+//var score = 0;
+//click to start ball motion variable
+var moving = false;
+
+//toggle button variables
 var toggle = "play";
-var score = 0;
-// var tempdx = 0;
-// var tempdy = 0;
 var toggleBtn = document.getElementById("toggleBtn");
 var paused = false;
 
 // hook up event listeners
 toggleBtn.addEventListener('click', function(event) {
-  toggleBtn.innerHTML = paused ? "Pause Game" : "Resume Game";
-  paused = !paused;
+  if (toggleBtn.innerHTML === "Start") {
+    intervalID = setInterval(draw, 8);
+    toggleBtn.innerHTML = "Pause";
+  } else {
+    toggleBtn.innerHTML = paused ? "Pause" : "Resume";
+    paused = !paused;
+  }
 });
 
+// canvas.addEventListener('click', function(event) {
+//   drawBall();
+//   // intervalID = setInterval(draw, 8);
+//   moving = true;
+// });
+
+// function init() {
+//   canvas = document.getElementById("canvas");
+//   ctx = canvas.getContext("2d");
+//   var intervalId = setInterval(draw, 10);
+//
+//   draw();
+// };
 //function to draw ball
 function drawBall() {
+//canvas.addEventListener('click', function(event) {
   if (paused) return;
   ctx.beginPath();
   ctx.arc(x, y, ballRadius, 0, Math.PI*2);
@@ -39,6 +67,8 @@ function drawBall() {
   Math.floor(Math.random()*256)+")";//'"#" + Math.floor(Math.random()*0xFFFFFF).toString(16)';//'#CB99C9';//'#9FB6CD';
   ctx.closePath();
   ctx.fill();
+  moving = true;
+//});
 }
 
 //function to draw paddle
@@ -163,6 +193,7 @@ function loseTheGame () {
 
 //function that draws entire canvas
 //all other canvas elements drawn here
+
 function draw() {
   if (paused) return;
   ctx.fillStyle = 'rgba(255,255,255,0.5)';
@@ -189,55 +220,21 @@ function draw() {
   }
   if (y + dy > canvas.height - paddleHeight) {
     if (x > paddleMove && x < paddleMove + paddleWidth) {
+      if (x < paddleMove + (paddleWidth / 3)) {
+        dx = dx < 0 ? -3 : 1;
+      } else if (x < paddleMove + (paddleWidth / 3 * 2)) {
+        dx = dx < 0 ? -2 : 2;
+      } else {
+        dx = dx < 0 ? -1 : 3;
+      }
       dy = -dy;
       ballHitPaddle.play();
-      if (dx > 0) {
-        if (dx + x < paddleMove){
-          dx *= (-2);
-        } else {
-          dx = dx;
-        }
-        //it hits the left side dx *=(-1)
-      } else {
-        dy = dy;
-        //if it hits the right side dx *=(-1)
-      }
     }
   }
   x += dx;
   y += dy;
-  //pause and resume
 }
 
-intervalID = setInterval(draw, 8);
-
-
-
-
-
-function pauseResume() {
-
-  // var tempdx = 0;
-  // var tempdy = 0;
-  // document.getElementById("toggle").addEventListener('click', function(event) {
-  // if (toggle === "pause") {
-  //   // tempdx = dx;
-  //   // tempdy = dy;
-  //   // dx = 0;
-  //   // dy = 0;
-  //   document.getElementById("toggle").innerHTML = 'Pause';
-  //   toggle = "play";
-  // } else if (toggle === "play") {
-  //  document.getElementById("toggle").innerHTML = 'Resume';
-  //   //intervalID;
-  //   // dx = tempdx;
-  //   // dy = tempdy;
-  //   toggle = "pause";
-  //   //clearInterval(intervalID);
-
-  //   }
-  // });
-}
 
 //checks which brick is currently being broken
 //and how many remain to be broken
@@ -293,5 +290,7 @@ var winner = new Audio("sounds/winner.wav")
 var playWinnerSound = function () {
   winner.play();
 }
+
+draw();
 
 
