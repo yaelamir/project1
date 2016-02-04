@@ -2,7 +2,7 @@ console.log("main.js loaded");
 
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
-var ballRadius = 13;
+var ballRadius = 15;
 var x = canvas.width;
 var y = canvas.height;
 var dx = 2;
@@ -19,10 +19,14 @@ var toggle = "play";
 var score = 0;
 
 //function to draw ball
+
 function drawBall() {
   ctx.beginPath();
   ctx.arc(x, y, ballRadius, 0, Math.PI*2);
-  ctx.fillStyle = '#CB99C9';//'#9FB6CD';
+  ctx.fillStyle = "rgb("+
+  Math.floor(Math.random()*256)+","+
+  Math.floor(Math.random()*256)+","+
+  Math.floor(Math.random()*256)+")";//'"#" + Math.floor(Math.random()*0xFFFFFF).toString(16)';//'#CB99C9';//'#9FB6CD';
   ctx.closePath();
   ctx.fill();
 }
@@ -142,6 +146,7 @@ function loseTheGame () {
     ctx.fillText("LOSER", 360, 400);
   }
 }
+
 //function that draws entire canvas
 //all other canvas elements drawn here
 function draw() {
@@ -172,8 +177,21 @@ function draw() {
     if (x > paddleMove && x < paddleMove + paddleWidth) {
       dy = -dy;
       ballHitPaddle.play();
+      if (dx > 0) {
+        if (dx + x < paddleMove){
+          dx *= (-2);
+        } else {
+          dx = dx;
+        }
+        //it hits the left side dx *=(-1)
+
+      } else {
+        dy = dy;
+        //if it hits the right side dx *=(-1)
+      }
     }
   }
+
   x += dx;
   y += dy;
   //pause and resume
@@ -182,21 +200,27 @@ function draw() {
 intervalID = setInterval(draw, 8);
 
 function pauseResume() {
+  var tempdx = 0;
+  var tempdy = 0;
   document.getElementById("toggle").addEventListener('click', function(event) {
-  if (toggle === "play") {
-    document.getElementById("toggle").innerHTML = 'Resume';
-    intervalID;
-    /*dx = 2;
-    dy = -2;*/
-    toggle = "pause";
-  } else if (toggle === "pause") {
-    dx = 0;
-    dy = 0;
-    //clearInterval(intervalID);
+  if (toggle === "pause") {
+    // tempdx = dx;
+    // tempdy = dy;
+    // dx = 0;
+    // dy = 0;
     document.getElementById("toggle").innerHTML = 'Pause';
     toggle = "play";
+  } else if (toggle === "play") {
+   document.getElementById("toggle").innerHTML = 'Resume';
+    //intervalID;
+    // dx = tempdx;
+    // dy = tempdy;
+    toggle = "pause";
+    //clearInterval(intervalID);
+
     }
-})
+  });
+}
 
 function winTheGame() {
   for (var i = 0; i < bricks.length; i++) {
@@ -208,7 +232,6 @@ function winTheGame() {
       bricks[i][j].status = 0;
     }
   }
-}
 }
 /*function drawScore() {
     ctx.font = "20px Arial";
