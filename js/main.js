@@ -1,5 +1,5 @@
 console.log("main.js loaded");
-
+//global pollution
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
 var ballRadius = 15;
@@ -17,10 +17,20 @@ var bricks = [];
 var intervalID;
 var toggle = "play";
 var score = 0;
+// var tempdx = 0;
+// var tempdy = 0;
+var toggleBtn = document.getElementById("toggleBtn");
+var paused = false;
+
+// hook up event listeners
+toggleBtn.addEventListener('click', function(event) {
+  toggleBtn.innerHTML = paused ? "Pause Game" : "Resume Game";
+  paused = !paused;
+});
 
 //function to draw ball
-
 function drawBall() {
+  if (paused) return;
   ctx.beginPath();
   ctx.arc(x, y, ballRadius, 0, Math.PI*2);
   ctx.fillStyle = "rgb("+
@@ -42,6 +52,7 @@ function drawPaddle() {
 
 //function to control arrow keys
 function move(e) {
+  if (paused) return;
   if (e.keyCode === 39) {
     paddleMove += 40;
   }
@@ -93,6 +104,7 @@ function drawBricks() {
 
 //function to detect if ball hits a brick
 function collisionDetection() {
+  if (paused) return;
   for (var c = 0; c < brickColumnCount; c++) {
     for (var r = 0; r < brickRowCount; r++) {
       if (bricks[c][r].status === 1 &&
@@ -130,7 +142,9 @@ var winningConditions = function() {
   }
 }
 
+//checks if player has lost
 function loseTheGame () {
+  if (paused) return;
   if (y > canvas.height + 30) {
     dx = 0;
     dy = 0;
@@ -150,6 +164,7 @@ function loseTheGame () {
 //function that draws entire canvas
 //all other canvas elements drawn here
 function draw() {
+  if (paused) return;
   ctx.fillStyle = 'rgba(255,255,255,0.5)';
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   drawBall();
@@ -158,7 +173,6 @@ function draw() {
   collisionDetection();
   winningConditions();
   loseTheGame();
-  pauseResume();
   //conditionals to check if ball is going beyond the boundaries of the canvas
   if (x + dx > canvas.width || x + dx < 0) {
     dx = -dx;
@@ -184,14 +198,12 @@ function draw() {
           dx = dx;
         }
         //it hits the left side dx *=(-1)
-
       } else {
         dy = dy;
         //if it hits the right side dx *=(-1)
       }
     }
   }
-
   x += dx;
   y += dy;
   //pause and resume
@@ -199,29 +211,36 @@ function draw() {
 
 intervalID = setInterval(draw, 8);
 
-function pauseResume() {
-  var tempdx = 0;
-  var tempdy = 0;
-  document.getElementById("toggle").addEventListener('click', function(event) {
-  if (toggle === "pause") {
-    // tempdx = dx;
-    // tempdy = dy;
-    // dx = 0;
-    // dy = 0;
-    document.getElementById("toggle").innerHTML = 'Pause';
-    toggle = "play";
-  } else if (toggle === "play") {
-   document.getElementById("toggle").innerHTML = 'Resume';
-    //intervalID;
-    // dx = tempdx;
-    // dy = tempdy;
-    toggle = "pause";
-    //clearInterval(intervalID);
 
-    }
-  });
+
+
+
+function pauseResume() {
+
+  // var tempdx = 0;
+  // var tempdy = 0;
+  // document.getElementById("toggle").addEventListener('click', function(event) {
+  // if (toggle === "pause") {
+  //   // tempdx = dx;
+  //   // tempdy = dy;
+  //   // dx = 0;
+  //   // dy = 0;
+  //   document.getElementById("toggle").innerHTML = 'Pause';
+  //   toggle = "play";
+  // } else if (toggle === "play") {
+  //  document.getElementById("toggle").innerHTML = 'Resume';
+  //   //intervalID;
+  //   // dx = tempdx;
+  //   // dy = tempdy;
+  //   toggle = "pause";
+  //   //clearInterval(intervalID);
+
+  //   }
+  // });
 }
 
+//checks which brick is currently being broken
+//and how many remain to be broken
 function winTheGame() {
   for (var i = 0; i < bricks.length; i++) {
     for (var j = 0; j < bricks[i].length; j++) {
@@ -254,10 +273,6 @@ drawText();
 
 
 //audio manipulation
-//////////////////
-
-// var ballHitWall = $("#sounds")[0];
-
 var ballHitWall = new Audio("sounds/wall.wav")
 var playBallHitSound = function () {
   ballHitWall.play();

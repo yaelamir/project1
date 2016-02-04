@@ -14,7 +14,7 @@ body {
 
 }
 
-#toggle {
+.game-btn {
   font-size: 30px;
   margin: 30px;
   background-color: #C6E2FF;
