@@ -59,7 +59,7 @@ function drawBall() {
 function drawPaddle() {
   ctx.beginPath();
   ctx.rect(paddleMove, (canvas.height - paddleHeight), paddleWidth, paddleHeight);
-  ctx.fillStyle = '#fdfd96';
+  ctx.fillStyle = '#C6E2FF';
   ctx.fill();
   ctx.closePath();
 }

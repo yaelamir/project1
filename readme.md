@@ -14,7 +14,7 @@ Breakout is an arcade game developed and published by Atari, Inc.[2] It was conc
 ###Description:  
 In the game, a layer of bricks lines the top third of the screen. A ball travels across the screen, bouncing off the top and side walls of the screen. When a brick is hit, the ball bounces away and the brick is destroyed. The player loses when the ball touches the bottom of the screen. To prevent this from happening, the player has a movable paddle to bounce the ball upward, keeping it in play. 
 
-The player must smash the wall of bricks by deflecting the bouncing ball with a paddle. The paddle moves horizontally and is controlled with left and right arrow keys. The player wins when all the bricks have been smashed.
+The player must smash the wall of bricks by deflecting the bouncing ball with a paddle. The paddle moves horizontally and is controlled with left and right arrow keys. Player may also move through the walls in order to catch the ball quickly on the other side of the screen. The player wins when all the bricks have been smashed.
 
 To begin playing, click the 'start' button at the bottom of the page.
 
@@ -26,10 +26,10 @@ To begin playing, click the 'start' button at the bottom of the page.
 - Score counter
 
 ###Technologies:
-- HTML5
+- HTML
 - CSS
 - JS
-- Canvas elements
+- Canvas
 
 ###Design:
 Arcade Design
@@ -45,7 +45,7 @@ Arcade Design
 ###Installation:
 1. Open either your Chrome or Firefox browser  
 **Note: Canvas is not compatible with all browsers**
-2. Copy paste or simply click this link to your url browser [http://yaelamir.github.io/project1/](http://yaelamir.github.io/project1/)
+2. Copy paste this link to your url browser or simply click to play  [http://yaelamir.github.io/project1/](http://yaelamir.github.io/project1/)
   
 
 ###Trello:  
