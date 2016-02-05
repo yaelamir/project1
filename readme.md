@@ -1,7 +1,7 @@
 
 #Brick Breaker  
-![altimg](gamescreenshot.png)  
-
+![altimg](assets/gamescreenshot.png)  
+[![altimg](assets/gamescreenshot.png)](http://yaelamir.github.io/project1/)
 
 ###Game Link: 
 [Play Me!](http://yaelamir.github.io/project1/ "Play Me!")
