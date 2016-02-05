@@ -1,4 +1,3 @@
-console.log('main.js loaded');
 //global pollution
 var canvas = document.getElementById('canvas');
 var ctx = canvas.getContext('2d');
@@ -24,9 +23,9 @@ var bricks = [];
 var intervalID;
 // score counter
 var score = 0;
-//click to start ball motion variable
+// click to start ball motion variable
 var moving = false;
-//toggle button variables
+// toggle button variables
 var toggle = 'play';
 var toggleBtn = document.getElementById('toggleBtn');
 var paused = false;
@@ -42,29 +41,21 @@ toggleBtn.addEventListener('click', function(event) {
   }
 });
 
-// function init() {
-//   canvas = document.getElementById('canvas');
-//   ctx = canvas.getContext('2d');
-// //   var intervalId = setInterval(draw, 10);
-// };
-
-//function to draw ball
+// draws ball
 function drawBall() {
-//canvas.addEventListener('click', function(event) {
   if (paused) return;
   ctx.beginPath();
   ctx.arc(x, y, ballRadius, 0, Math.PI*2);
   ctx.fillStyle = 'rgb('+
   Math.floor(Math.random()*256)+','+
   Math.floor(Math.random()*256)+','+
-  Math.floor(Math.random()*256)+')';//''#' + Math.floor(Math.random()*0xFFFFFF).toString(16)';//'#CB99C9';//'#9FB6CD';
+  Math.floor(Math.random()*256)+')';
   ctx.closePath();
   ctx.fill();
   moving = true;
-//});
 }
 
-//function to draw paddle
+// draws paddle
 function drawPaddle() {
   ctx.beginPath();
   ctx.rect(paddleMove, (canvas.height - paddleHeight), paddleWidth, paddleHeight);
@@ -73,7 +64,7 @@ function drawPaddle() {
   ctx.closePath();
 }
 
-//function to control arrow keys
+// controls arrow keys
 function move(e) {
   if (paused) return;
   if (e.keyCode === 39) {
@@ -82,7 +73,7 @@ function move(e) {
   if (e.keyCode === 37) {
     paddleMove -= 80;
   }
-  //sets boundaries for paddle
+  //removes boundaries for paddle to loop thru walls
   if (paddleMove > canvas.width) {
     paddleMove = 0;
   }
@@ -92,7 +83,7 @@ function move(e) {
 }
 document.onkeydown = move;
 
-//function to create bricks in an array
+// creates bricks
 function createBrick() {
   for (c = 0; c < brickColumnCount; c++) {
     bricks[c] = [];
@@ -108,7 +99,7 @@ function createBrick() {
 }
 createBrick();
 
-//function to draw bricks on canvas
+// draws bricks on canvas
 function drawBricks() {
   for (var c = 0; c < brickColumnCount; c++) {
     for (var r = 0; r < brickRowCount; r++) {
@@ -116,7 +107,7 @@ function drawBricks() {
         bricks[c][r].x = (c * (bricks[c][r].brickWidth + brickPadding));
         bricks[c][r].y = (r * (bricks[c][r].brickHeight + brickPadding));
         ctx.beginPath();
-        ctx.fillStyle = 'rgb(0,' + Math.floor(255-42.5*r) + ',' + Math.floor(255-15*c) + ')';
+        ctx.fillStyle = 'rgb(0,' + Math.floor(255 - 42.5 * r) + ',' + Math.floor(255 - 15 * c) + ')';
         ctx.rect(bricks[c][r].x, bricks[c][r].y, bricks[c][r].brickWidth, bricks[c][r].brickHeight);
         ctx.fill();
         ctx.closePath();
@@ -125,7 +116,7 @@ function drawBricks() {
   }
 }
 
-//function to detect if ball hits a brick
+// detects if ball hits a brick
 function collisionDetection() {
   if (paused) return;
   for (var c = 0; c < brickColumnCount; c++) {
@@ -142,9 +133,9 @@ function collisionDetection() {
       }
     }
   }
-  console.log('your score is: ' + score);
 }
 
+// draws score on canvas
 function drawScore() {
     ctx.font = '25px Impact, Charcoal, sans-serif';
     ctx.fillStyle = 'white';
@@ -159,14 +150,10 @@ var winningConditions = function() {
       total += bricks[c][r].status;
     }
   }
-  console.log('total bricks left:', total);
   if (total === 0) {
     winner.play();
     clearInterval(intervalID);
     ctx.font = '200px Impact, Charcoal, sans-serif';
-    // ctx.shadowOffsetX = 4;
-    // ctx.shadowOffsetY = 4;
-    // ctx.shadowColor = '#C6E2FF';
     ctx.fillStyle = 'red';
     ctx.fillText('WINNER', 270, 400);
     ctx.font = '50px Impact, Charcoal, sans-serif'
@@ -183,11 +170,6 @@ function loseTheGame() {
     loser.play();
     clearInterval(intervalID);
     ctx.font = '200px Impact, Charcoal, sans-serif';
-    // ctx.shadowOffsetX = 10;
-    // ctx.shadowOffsetY = 10;
-    // ctx.shadowBlur = 10;
-    //ctx.textBlur = 10;
-    // ctx.shadowColor = '#C6E2FF';
     ctx.fillStyle = 'red';
     ctx.fillText('LOSER', 360, 400);
     ctx.font = '50px Impact, Charcoal, sans-serif'
@@ -195,12 +177,8 @@ function loseTheGame() {
   }
 }
 
-// function finalScore() {
-//   if
-// }
-
-//function that draws entire canvas
-//all other canvas elements drawn here
+//draws entire canvas
+//all other canvas elements called here
 function draw() {
   if (paused) return;
   ctx.fillStyle = 'rgba(255,255,255,0.5)';
@@ -243,7 +221,6 @@ function draw() {
   y += dy;
 }
 
-
 //checks which brick is currently being broken
 //and how many remain to be broken
 function winTheGame() {
@@ -257,32 +234,18 @@ function winTheGame() {
     }
   }
 }
-/*function drawScore() {
-    ctx.font = '20px Arial';
-    ctx.fillStyle = '#0095DD';
-    ctx.fillText('Bricks Remaining: '+total, 8, 585);
-}*/
-// function drawScore() {
-//     var ctx = document.getElementById('score').getContext('2d');
-//     ctx.font = '70px Impact, Charcoal, sans-serif';
-//     ctx.fillStyle = 'white';
-//     ctx.fillText('Score: ' + score, 100, 585);
-// }
-// drawScore();
 
-//text for second canvas
+//separate canvas for title
 function drawText() {
   var ctx = document.getElementById('textCanvas').getContext('2d');
   ctx.shadowOffsetX = 4;
   ctx.shadowOffsetY = 4;
-  //ctx.shadowBlur = 2;
   ctx.shadowColor = '#B9D3EE';
   ctx.font = '70px Impact, Charcoal, sans-serif';
   ctx.fillStyle = 'white';
   ctx.fillText('BRICK BREAKER', 10, 60);
 }
 drawText();
-
 
 //audio manipulation
 var ballHitWall = new Audio('sounds/wall.wav')

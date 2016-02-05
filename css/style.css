@@ -1,8 +1,3 @@
-
-#textCanvas {
-  text-align: center;
-}
-
 body {
   display: block;
   max-width: 90%;
@@ -12,16 +7,22 @@ body {
   background-image: url(http://wallpapercave.com/wp/saiUfL2.png);
 }
 
-.game-btn {
-  font-size: 30px;
-  margin: 30px;
-  background-color: #C6E2FF;
-}
-
 #canvas {
   background: rgba(255,255,255,0.2);
   max-width: 90%;
   display: block;
   margin: auto;
 }
+
+#textCanvas {
+  text-align: center;
+}
+
+.game-btn {
+  font-size: 30px;
+  margin: 30px;
+  background-color: #C6E2FF;
+}
+
+
 
