@@ -1,6 +1,6 @@
 
 #Brick Breaker   
-[![altimg](assets/gamescreenshot.png)](http://yaelamir.github.io/project1/)
+[![altimg](https://i.imgur.com/chdtXY3.png)](http://yaelamir.github.io/project1/)
 
 ###Game Link: 
 [Play Me!](http://yaelamir.github.io/project1/ "Play Me!")
@@ -23,6 +23,7 @@ To begin playing, click the 'start' button at the bottom of the page.
 - Pause button
 - Resume button
 - Refresh button
+- Score counter
 
 ###Technologies:
 - HTML5
@@ -39,10 +40,12 @@ Arcade Design
 - Add trailing effect to mouse
 - Change the look of the paddle
 - Click release the ball to begin game
+- Clean up code (i.e. make the ball an object, reduce draw function, etc.)
 
 ###Installation:
-1. Open your favorite browser
-2. Copy paste this link to your url browser [http://yaelamir.github.io/project1/](http://yaelamir.github.io/project1/)
+1. Open either your Chrome or Firefox browser  
+**Note: Canvas is not compatible with all browsers**
+2. Copy paste or simply click this link to your url browser [http://yaelamir.github.io/project1/](http://yaelamir.github.io/project1/)
   
 
 ###Trello:  

@@ -4,29 +4,22 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Brick Breaker</title>
+  <link rel="shortcut icon" href="assets/gamescreenshot.png">
   <link rel="stylesheet" href="css/style.css">
-<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script> -->
   <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
 </head>
-
 <body>
-
   <canvas id="textCanvas" width="450" height="80">
     Your browser doesn't support canvas!
   </canvas>
   <canvas id="canvas" width="1200" height="600">
     Your browser doesn't support canvas!
   </canvas>
-
-
-  <div>
+<div class="buttons">
       <button id="toggleBtn" class="game-btn">Start</button>
       <button class="game-btn" onClick="history.go(0)" value="Restart">Restart</button>
-  </div>
-
-
+</div>
   <audio id="sounds" src="sounds/ballhitwall.wav"></audio>
-
   <script src="js/main.js"></script>
 </body>
 </html>

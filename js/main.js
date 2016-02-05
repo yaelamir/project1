@@ -6,7 +6,7 @@ var ctx = canvas.getContext('2d');
 var ballRadius = 15;
 //ball starting positions on x & y axis
 var x = canvas.width/2;
-var y = canvas.height - 40;
+var y = canvas.height - 45;
 //ball starting trajectory
 var dx = 2;
 var dy = -2;
@@ -22,10 +22,10 @@ var brickPadding = 5;
 var bricks = [];
 //interval variable
 var intervalID;
-//var score = 0;
+// score counter
+var score = 0;
 //click to start ball motion variable
 var moving = false;
-
 //toggle button variables
 var toggle = 'play';
 var toggleBtn = document.getElementById('toggleBtn');
@@ -42,19 +42,12 @@ toggleBtn.addEventListener('click', function(event) {
   }
 });
 
-// canvas.addEventListener('click', function(event) {
-//   drawBall();
-//   // intervalID = setInterval(draw, 8);
-//   moving = true;
-// });
-
 // function init() {
 //   canvas = document.getElementById('canvas');
 //   ctx = canvas.getContext('2d');
-//   var intervalId = setInterval(draw, 10);
-//
-//   draw();
+// //   var intervalId = setInterval(draw, 10);
 // };
+
 //function to draw ball
 function drawBall() {
 //canvas.addEventListener('click', function(event) {
@@ -75,7 +68,7 @@ function drawBall() {
 function drawPaddle() {
   ctx.beginPath();
   ctx.rect(paddleMove, (canvas.height - paddleHeight), paddleWidth, paddleHeight);
-  ctx.fillStyle = '#00FA9A';
+  ctx.fillStyle = '#fdfd96';
   ctx.fill();
   ctx.closePath();
 }
@@ -122,11 +115,11 @@ function drawBricks() {
       if (bricks[c][r].status === 1) {
         bricks[c][r].x = (c * (bricks[c][r].brickWidth + brickPadding));
         bricks[c][r].y = (r * (bricks[c][r].brickHeight + brickPadding));
-          ctx.beginPath();
-          ctx.fillStyle = 'rgb(0,' + Math.floor(255-42.5*r) + ',' + Math.floor(255-15*c) + ')';
-          ctx.rect(bricks[c][r].x, bricks[c][r].y, bricks[c][r].brickWidth, bricks[c][r].brickHeight);
-          ctx.fill();
-          ctx.closePath();
+        ctx.beginPath();
+        ctx.fillStyle = 'rgb(0,' + Math.floor(255-42.5*r) + ',' + Math.floor(255-15*c) + ')';
+        ctx.rect(bricks[c][r].x, bricks[c][r].y, bricks[c][r].brickWidth, bricks[c][r].brickHeight);
+        ctx.fill();
+        ctx.closePath();
       }
     }
   }
@@ -145,10 +138,17 @@ function collisionDetection() {
             dy = -dy;
             ballHitBrick.play();
             bricks[c][r].status = 0;
-
+            score += 5;
       }
     }
   }
+  console.log('your score is: ' + score);
+}
+
+function drawScore() {
+    ctx.font = '25px Impact, Charcoal, sans-serif';
+    ctx.fillStyle = 'white';
+    ctx.fillText('SCORE: ' + score, 10, 585);
 }
 
 //checks to see if user won
@@ -164,16 +164,18 @@ var winningConditions = function() {
     winner.play();
     clearInterval(intervalID);
     ctx.font = '200px Impact, Charcoal, sans-serif';
-    ctx.shadowOffsetX = 10;
-    ctx.shadowOffsetY = 10;
-    ctx.shadowColor = '#C6E2FF';
-    ctx.fillStyle = 'white';
-    ctx.fillText('WINNER', 250, 400);
+    // ctx.shadowOffsetX = 4;
+    // ctx.shadowOffsetY = 4;
+    // ctx.shadowColor = '#C6E2FF';
+    ctx.fillStyle = 'red';
+    ctx.fillText('WINNER', 270, 400);
+    ctx.font = '50px Impact, Charcoal, sans-serif'
+    ctx.fillText('HIGH SCORE OF 275!', 400, 200);
   }
 }
 
 //checks if player has lost
-function loseTheGame () {
+function loseTheGame() {
   if (paused) return;
   if (y > canvas.height + 30) {
     dx = 0;
@@ -181,19 +183,24 @@ function loseTheGame () {
     loser.play();
     clearInterval(intervalID);
     ctx.font = '200px Impact, Charcoal, sans-serif';
-    ctx.shadowOffsetX = 10;
-    ctx.shadowOffsetY = 10;
-    ctx.shadowBlur = 10;
+    // ctx.shadowOffsetX = 10;
+    // ctx.shadowOffsetY = 10;
+    // ctx.shadowBlur = 10;
     //ctx.textBlur = 10;
-    ctx.shadowColor = '#C6E2FF';
-    ctx.fillStyle = 'black';
+    // ctx.shadowColor = '#C6E2FF';
+    ctx.fillStyle = 'red';
     ctx.fillText('LOSER', 360, 400);
+    ctx.font = '50px Impact, Charcoal, sans-serif'
+    ctx.fillText('Final Score: ' + score, 470, 200);
   }
 }
 
+// function finalScore() {
+//   if
+// }
+
 //function that draws entire canvas
 //all other canvas elements drawn here
-
 function draw() {
   if (paused) return;
   ctx.fillStyle = 'rgba(255,255,255,0.5)';
@@ -204,6 +211,7 @@ function draw() {
   collisionDetection();
   winningConditions();
   loseTheGame();
+  drawScore();
   //conditionals to check if ball is going beyond the boundaries of the canvas
   if (x + dx > canvas.width || x + dx < 0) {
     dx = -dx;
@@ -254,6 +262,13 @@ function winTheGame() {
     ctx.fillStyle = '#0095DD';
     ctx.fillText('Bricks Remaining: '+total, 8, 585);
 }*/
+// function drawScore() {
+//     var ctx = document.getElementById('score').getContext('2d');
+//     ctx.font = '70px Impact, Charcoal, sans-serif';
+//     ctx.fillStyle = 'white';
+//     ctx.fillText('Score: ' + score, 100, 585);
+// }
+// drawScore();
 
 //text for second canvas
 function drawText() {
