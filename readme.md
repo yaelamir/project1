@@ -1,6 +1,5 @@
 
-#Brick Breaker  
-![altimg](assets/gamescreenshot.png)  
+#Brick Breaker   
 [![altimg](assets/gamescreenshot.png)](http://yaelamir.github.io/project1/)
 
 ###Game Link: 
